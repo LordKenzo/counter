@@ -31,6 +31,7 @@ export class FiglioComponent {
 
   divide() {
     this.counter /= this.factor;
+    this.counter = this.counter < 1 ? 0 : this.counter;
     this.onChangeCounter(this.counter);
   }
 

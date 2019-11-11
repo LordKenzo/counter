@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
         <h4>Counter</h4>
         <h5>{{counter}}</h5>
         <button class="btn btn-info" (click)="increment()">Increment</button>
-        <button [disabled]="counter===0" class="btn btn-warning" (click)="decrement()">Decrement</button>
+        <button [disabled]="counter<=0" class="btn btn-warning" (click)="decrement()">Decrement</button>
         <hr>
         <fl-figlio [counter]="counter" (changeCounter)="this.counter = $event"></fl-figlio>
       </div>
@@ -27,7 +27,7 @@ export class CounterComponent {
   }
 
   decrement() {
-    this.counter -= this.counter && 1;
+    this.counter -= this.counter < 1 ? 0 : 1;
   }
 
 }
