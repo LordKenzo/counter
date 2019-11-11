@@ -1,24 +1,25 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
+import { NgRedux, select } from '@angular-redux/store';
+import { AppState } from 'src/app/redux/reducers';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'fl-nipote',
   template: `
     <h4>Counter</h4>
-    <h5>{{counter}}</h5>
+    <h5>{{counter$ | async}}</h5>
     <button class="btn btn-danger" (click)="reset()">Reset</button>
   `,
   styles: []
 })
 export class NipoteComponent {
 
-  @Input() counter: number;
-  @Output() resetClick: EventEmitter<number> = new EventEmitter<number>();
+  @select() counter$: Observable<number>;
 
-  constructor() { }
+  constructor(private ngRedux: NgRedux<AppState>) {}
 
   reset() {
-    this.counter = 0;
-    this.resetClick.emit(this.counter);
+    this.ngRedux.dispatch({ type: 'RESET' });
   }
 
 }

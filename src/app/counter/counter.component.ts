@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { AppState } from '../redux/reducers';
+import { NgRedux, select } from '@angular-redux/store';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'fl-counter',
@@ -6,11 +9,11 @@ import { Component } from '@angular/core';
     <div class="row">
       <div class="col text-center">
         <h4>Counter</h4>
-        <h5>{{counter}}</h5>
+        <h5>{{counter$ | async}}</h5>
         <button class="btn btn-info" (click)="increment()">Increment</button>
-        <button [disabled]="counter===0" class="btn btn-warning" (click)="decrement()">Decrement</button>
+        <button [disabled]="(counter$ | async)===0" class="btn btn-warning" (click)="decrement()">Decrement</button>
         <hr>
-        <fl-figlio [counter]="counter" (changeCounter)="this.counter = $event"></fl-figlio>
+        <fl-figlio></fl-figlio>
       </div>
     </div>
   `,
@@ -18,16 +21,16 @@ import { Component } from '@angular/core';
 })
 export class CounterComponent {
 
-  counter = 0;
+  @select() counter$: Observable<number>;
 
-  constructor() { }
+  constructor(private ngRedux: NgRedux<AppState>) {}
 
   increment() {
-    this.counter += 1;
+    this.ngRedux.dispatch({ type: 'INCREMENT' });
   }
 
   decrement() {
-    this.counter -= this.counter && 1;
+    this.ngRedux.dispatch({ type: 'DECREMENT' });
   }
 
 }

@@ -7,6 +7,12 @@ import { CounterComponent } from './counter/counter.component';
 import { FiglioComponent } from './counter/figlio/figlio.component';
 import { NipoteComponent } from './counter/nipote/nipote.component';
 
+// Redux:
+import { NgReduxModule, NgRedux } from '@angular-redux/store';
+import { createLogger } from 'redux-logger';
+import { counterReducer, AppState } from './redux/reducers';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -16,9 +22,14 @@ import { NipoteComponent } from './counter/nipote/nipote.component';
   ],
   imports: [
     BrowserModule,
+    NgReduxModule,
     AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(ngRedux: NgRedux<AppState>) {
+    ngRedux.configureStore(counterReducer, {counter: 0}, [createLogger()]);
+  }
+}
