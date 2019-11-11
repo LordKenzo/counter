@@ -11,7 +11,7 @@ export function counterReducer(state = initialState, action): AppState {
         case 'INCREMENT':
             return {...state, counter: ++state.counter };
         case 'DECREMENT':
-            return {...state, counter: --state.counter };
+            return {...state, counter: state.counter < 1 ? 0 : --state.counter };
         case 'MULTIPLY':
         case 'DIVIDE':
             return {...state, counter: action.payload.counter};
