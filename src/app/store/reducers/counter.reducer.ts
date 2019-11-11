@@ -17,7 +17,7 @@ const initialState: CounterState = {
 const counterReducer: ActionReducer<CounterState> = createReducer(
   initialState,
   on(CounterActions.increment, state => ({...state, counter: ++state.counter})),
-  on(CounterActions.decrement, state => ({...state, counter: --state.counter})),
+  on(CounterActions.decrement, state => ({...state, counter: state.counter < 1 ? 0 : --state.counter})),
   on(CounterActions.multiply, (state, action) => ({...state, counter: action.counter})),
   on(CounterActions.divide, (state, action) => ({...state, counter: action.counter})),
   on(CounterActions.reset, state => ({...state, counter: 0})),
